@@ -48,5 +48,10 @@
         "username": "azka",
         "password": "$2y$10$UEZdnXye0YTJBsK.0OW1f..Be268v2kVLDx\/4kfG9mB3Qx5PVQUMi",
         "role": "user"
+    },
+    {
+        "username": "shake",
+        "password": "$2y$10$E1UKMrjDAPTphYk0L7fSHO69XzNlDDfZ\/1lDxX.LiAg3lNsMHtnrW",
+        "role": "user"
     }
 ]
