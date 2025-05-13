@@ -53,5 +53,10 @@
         "username": "shake",
         "password": "$2y$10$E1UKMrjDAPTphYk0L7fSHO69XzNlDDfZ\/1lDxX.LiAg3lNsMHtnrW",
         "role": "user"
+    },
+    {
+        "username": "dimanagleen",
+        "password": "$2y$10$wtx1U\/a6dnZ3QS.oANyxmOcO7RuuKFg0GUqvnD.6N9NLVfFRVqUFG",
+        "role": "user"
     }
 ]

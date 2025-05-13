@@ -2,6 +2,14 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
+            
+            <li class="nav-item">
+                <a class="nav-link <?php echo (uri_string() == 'home') ? "active" : "collapsed" ?>" href="<?= base_url('home') ?>">
+                    <i class="bi bi-house-door"></i>
+                    <span>Home</span>
+                </a>
+            </li><!-- End Dashboard User Nav -->
+
         <!-- Dashboard for admin -->
         <?php if (session()->get('role') == 'admin') { ?>
             <li class="nav-item">
@@ -25,7 +33,7 @@
         <?php } ?>
 
         <!-- Dashboard for user -->
-        <?php if (session()->get('role') == 'user') { ?>
+        <?php if (session()->get('role') == 'guest') { ?>
             <li class="nav-item">
                 <a class="nav-link <?php echo (uri_string() == 'user') ? "active" : "collapsed" ?>" href="<?= base_url('user') ?>">
                     <i class="bi bi-grid"></i>
@@ -39,7 +47,6 @@
                 </a>
             </li><!-- End Dashboard User Nav -->
         <?php } ?>
-
     </ul>
 
 </aside><!-- End Sidebar-->

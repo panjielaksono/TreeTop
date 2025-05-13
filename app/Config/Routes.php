@@ -27,3 +27,4 @@ $routes->get('/users/edit/(:any)', 'DashboardController::edit/$1');
 $routes->post('/users/update/(:any)', 'DashboardController::update/$1');            
 $routes->get('/users/delete/(:any)', 'DashboardController::delete/$1');            
 
+$routes->get('/home', 'Home::index', ['filter' => 'auth']);  

@@ -11,8 +11,8 @@ class DashboardController extends BaseController
     public function userDashboard()
     {
      
-        if (session()->get('role') !== 'user') {
-            return redirect()->to('/user');
+        if (session()->get('role') !== 'guest') {
+            return redirect()->to('/guest');
         }
         
 
@@ -26,8 +26,8 @@ class DashboardController extends BaseController
     
     public function userMember(){
 
-        if (session()->get('role') !== 'user') {
-            return redirect()->to('/user');
+        if (session()->get('role') !== 'guest') {
+            return redirect()->to('/guest');
         }
         
 
@@ -43,7 +43,7 @@ class DashboardController extends BaseController
     {
       
         if (session()->get('role') !== 'admin') {
-            return redirect()->to('/user');
+            return redirect()->to('/guest');
         }
 
 
