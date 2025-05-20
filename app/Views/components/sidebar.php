@@ -9,6 +9,12 @@
                     <span>Home</span>
                 </a>
             </li><!-- End Dashboard User Nav -->
+            <li class="nav-item">
+                <a class="nav-link <?php echo (uri_string() == 'product') ? "active" : "collapsed" ?>" href="<?= base_url('product') ?>">
+                    <i class="bi bi-box"></i>
+                    <span>Product</span>
+                </a>
+            </li><!-- End Dashboard User Nav -->
 
         <!-- Dashboard for admin -->
         <?php if (session()->get('role') == 'admin') { ?>

@@ -12,6 +12,14 @@ $routes->get('login', 'AuthController::login');
 $routes->post('login', 'AuthController::login');
 $routes->post('logout', 'AuthController::logout');
 
+// product
+$routes->group('product', ['filter' => 'auth'], function ($routes) { 
+    $routes->get('', 'ProductController::index');
+    $routes->post('', 'ProductController::create');
+    $routes->post('edit/(:any)', 'ProductController::edit/$1');
+    $routes->get('delete/(:any)', 'ProductController::delete/$1');
+});
+
 // user
 $routes->get('/user', 'DashboardController::userDashboard', ['filter' => 'auth']);
 $routes->get('/member', 'DashboardController::userMember', ['filter' => 'auth']);

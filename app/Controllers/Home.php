@@ -12,11 +12,11 @@ class Home extends BaseController
         $this->product = new ProductModel();
     }
 
-
     public function index()
     {
         $product = $this->product->findAll();
         $data['product'] = $product;
         return view('v_home', $data);
     }
+
 }
