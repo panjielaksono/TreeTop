@@ -21,18 +21,23 @@ $routes->group('product', ['filter' => 'auth'], function ($routes) {
 });
 
 // user
-$routes->get('/user', 'DashboardController::userDashboard', ['filter' => 'auth']);
-$routes->get('/member', 'DashboardController::userMember', ['filter' => 'auth']);
+$routes->group('guest', ['filter' => 'auth'], function ($routes) { 
+    $routes->get('', 'GuestController::index');
+    $routes->get('member', 'GuestController::userMember');
+});
 
 //admin
-$routes->get('/admin', 'DashboardController::adminDashboard', ['filter' => 'auth']);
-$routes->get('/users', 'DashboardController::users', ['filter' => 'auth']);       
-$routes->get('/membership', 'DashboardController::adminMember', ['filter' => 'auth']);       
+$routes->group('admin', ['filter' => 'auth'], function ($routes) {
+    $routes->get('', 'AdminController::index');
+    $routes->get('users', 'AdminController::users');
+    $routes->get('users/create', 'AdminController::create');
+    $routes->post('users/store', 'AdminController::store');
+    $routes->get('users/edit/(:num)', 'AdminController::edit/$1');
+    $routes->post('users/update/(:num)', 'AdminController::update/$1');
+    $routes->get('users/delete/(:num)', 'AdminController::delete/$1');
+    $routes->get('membership', 'AdminController::adminMember');
+});
 
-$routes->get('/users/create', 'DashboardController::create', ['filter' => 'auth']); 
-$routes->post('/users/store', 'DashboardController::store');                        
-$routes->get('/users/edit/(:any)', 'DashboardController::edit/$1');                
-$routes->post('/users/update/(:any)', 'DashboardController::update/$1');            
-$routes->get('/users/delete/(:any)', 'DashboardController::delete/$1');            
+         
 
 $routes->get('/home', 'Home::index', ['filter' => 'auth']);  

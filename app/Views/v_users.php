@@ -1,7 +1,7 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 <!-- Button to Add User -->
-<a href="<?= base_url('users/create') ?>" class="btn btn-primary mb-3">Tambah User</a>
+<a href="<?= base_url('admin/users/create') ?>" class="btn btn-primary mb-3">Tambah User</a>
 
 <!-- Table with users -->
 <table class="table datatable">
@@ -22,9 +22,9 @@
                     <td><?= esc($user['role']) ?></td>
                     <td>
                         <!-- Edit Button -->
-                        <a href="<?= base_url('users/edit/' . esc($user['username'])) ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="<?= base_url('admin/users/edit/' . $user['id']) ?>" class="btn btn-warning btn-sm">Edit</a>
                         <!-- Delete Button -->
-                        <a href="<?= base_url('users/delete/' . esc($user['username'])) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                        <a href="<?= base_url('admin/users/delete/' . $user['id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

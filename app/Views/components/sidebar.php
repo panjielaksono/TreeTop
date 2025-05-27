@@ -1,58 +1,61 @@
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
-            
             <li class="nav-item">
                 <a class="nav-link <?php echo (uri_string() == 'home') ? "active" : "collapsed" ?>" href="<?= base_url('home') ?>">
                     <i class="bi bi-house-door"></i>
                     <span>Home</span>
                 </a>
             </li><!-- End Dashboard User Nav -->
-            <li class="nav-item">
-                <a class="nav-link <?php echo (uri_string() == 'product') ? "active" : "collapsed" ?>" href="<?= base_url('product') ?>">
-                    <i class="bi bi-box"></i>
-                    <span>Product</span>
-                </a>
-            </li><!-- End Dashboard User Nav -->
 
         <!-- Dashboard for admin -->
         <?php if (session()->get('role') == 'admin') { ?>
             <li class="nav-item">
-                <a class="nav-link <?php echo (uri_string() == 'admin') ? "active" : "collapsed" ?>" href="<?= base_url('admin') ?>">
+                <a class="nav-link <?= (uri_string() == 'product') ? 'active' : 'collapsed' ?>" href="<?= base_url('product') ?>">
+                    <i class="bi bi-box"></i>
+                    <span>Product</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link <?= (uri_string() == 'admin') ? 'active' : 'collapsed' ?>" href="<?= base_url('admin') ?>">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
-            </li><!-- End Dashboard Admin Nav -->
+            </li>
+
             <li class="nav-item">
-                <a class="nav-link <?php echo (uri_string() == 'users') ? "active" : "collapsed" ?>" href="<?= base_url('users') ?>">
+                <a class="nav-link <?= (uri_string() == 'admin/users') ? 'active' : 'collapsed' ?>" href="<?= base_url('admin/users') ?>">
                     <i class="bi bi-person"></i>
-                    <span>Users</span>
+                    <span>User Management</span>
                 </a>
-            </li><!-- End Users Nav -->
+            </li>
+
             <li class="nav-item">
-                <a class="nav-link <?php echo (uri_string() == 'membership') ? "active" : "collapsed" ?>" href="<?= base_url('membership') ?>">
+                <a class="nav-link <?= (uri_string() == 'admin/membership') ? 'active' : 'collapsed' ?>" href="<?= base_url('admin/membership') ?>">
                     <i class="bi bi-card-list"></i>
                     <span>Membership</span>
                 </a>
-            </li><!-- End Users Nav -->
+            </li>
         <?php } ?>
 
-        <!-- Dashboard for user -->
+        <!-- Menu for user -->
         <?php if (session()->get('role') == 'guest') { ?>
             <li class="nav-item">
-                <a class="nav-link <?php echo (uri_string() == 'user') ? "active" : "collapsed" ?>" href="<?= base_url('user') ?>">
+                <a class="nav-link <?= (uri_string() == 'guest') ? 'active' : 'collapsed' ?>" href="<?= base_url('guest') ?>">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
-            </li><!-- End Dashboard User Nav -->
+            </li>
+
             <li class="nav-item">
-                <a class="nav-link <?php echo (uri_string() == 'member') ? "active" : "collapsed" ?>" href="<?= base_url('member') ?>">
+                <a class="nav-link <?= (uri_string() == 'guest/member') ? 'active' : 'collapsed' ?>" href="<?= base_url('guest/member') ?>">
                     <i class="bi bi-card-list"></i>
                     <span>Member</span>
                 </a>
-            </li><!-- End Dashboard User Nav -->
+            </li>
         <?php } ?>
+
     </ul>
 
 </aside><!-- End Sidebar-->
