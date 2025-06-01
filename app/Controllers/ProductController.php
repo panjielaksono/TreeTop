@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\ProductModel; 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class ProductController extends BaseController
 {
     protected $product;
@@ -19,7 +21,7 @@ class ProductController extends BaseController
 
         return view('v_product', $data);
     }
-
+    
     public function create()
     {
         $dataFoto = $this->request->getFile('foto');
@@ -83,5 +85,32 @@ class ProductController extends BaseController
         $this->product->delete($id);
 
         return redirect('product')->with('success', 'Data Berhasil Dihapus');
+    }
+
+    public function download()
+    {
+            //get data from database
+        $product = $this->product->findAll();
+
+            //pass data to file view
+        $html = view('v_productPDF', ['product' => $product]);
+
+            //set the pdf filename
+        $filename = date('y-m-d-H-i-s') . '-productz';
+
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+
+        // load HTML content (file view)
+        $dompdf->loadHtml($html);
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'potrait');
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename);
     }
 }
