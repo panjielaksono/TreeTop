@@ -6,8 +6,13 @@
                     <i class="bi bi-house-door"></i>
                     <span>Home</span>
                 </a>
-            </li><!-- End Dashboard User Nav -->
-
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php echo (uri_string() == 'keranjang') ? "active" : "collapsed" ?>" href="<?= base_url('keranjang') ?>">
+                    <i class="bi bi-cart"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
         <!-- Dashboard for admin -->
         <?php if (session()->get('role') == 'admin') { ?>
             <li class="nav-item">
@@ -52,6 +57,12 @@
                 <a class="nav-link <?= (uri_string() == 'guest/member') ? 'active' : 'collapsed' ?>" href="<?= base_url('guest/member') ?>">
                     <i class="bi bi-card-list"></i>
                     <span>Member</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?= (uri_string() == 'history') ? 'active' : 'collapsed' ?>" href="<?= base_url('history') ?>">
+                    <i class="bi bi-card-list"></i>
+                    <span>Riwayat Pembelian</span>
                 </a>
             </li>
         <?php } ?>

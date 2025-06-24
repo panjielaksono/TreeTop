@@ -70,4 +70,38 @@ class AuthController extends BaseController
  
         return view('v_login');
     }
+
+    public function register()
+    {
+        if ($this->request->getMethod() === 'post') {
+            $rules = [
+                'username' => 'required|min_length[4]|is_unique[user.username]',
+                'email' => 'required|valid_email|is_unique[user.email]',
+                'password' => 'required|min_length[7]|numeric',
+                'pass_confirm' => 'matches[password]'
+            ];
+
+            if (!$this->validate($rules)) {
+                session()->setFlashdata('failed', $this->validator->listErrors());
+                return redirect()->back()->withInput();
+            }
+
+            // Data untuk disimpan ke database
+            $data = [
+                'username' => $this->request->getPost('username'),
+                'email'    => $this->request->getPost('email'),
+                'password' => $this->request->getPost('password'), // Password akan di-hash oleh Model
+                'role'     => 'guest' // Default role untuk user baru
+            ];
+
+            // Mencoba menyimpan data ke database
+            // Jika callback hashPassword di model aktif, password akan di-hash otomatis
+            $inserted = $this->userModel->insert($data);         
+
+            return redirect()->to('/login')->with('success', 'Registrasi berhasil, silakan login.');
+        }
+
+        return view('v_register');
+    }
+
 }

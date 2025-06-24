@@ -23,7 +23,7 @@ class AdminController extends BaseController
     
         $userModel = new \App\Models\UserModel();
     
-        $userCount = $userModel->countAll(); // total semua user
+        $userCount = $userModel->countAll(); 
         $adminCount = $userModel->where('role', 'admin')->countAllResults();
         $guestCount = $userModel->where('role', 'guest')->countAllResults();
     

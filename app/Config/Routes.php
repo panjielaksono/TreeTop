@@ -48,5 +48,17 @@ $routes->group('keranjang', ['filter' => 'auth'], function ($routes) {
     $routes->get('delete/(:any)', 'TransactionController::cart_delete/$1');
     $routes->get('clear', 'TransactionController::cart_clear');
 });
+$routes->get('checkout', 'TransactionController::checkout', ['filter' => 'auth']);
+$routes->post('buy', 'TransactionController::buy', ['filter' => 'auth']);
+$routes->get('get-location', 'TransactionController::getLocation', ['filter' => 'auth']);
+$routes->get('get-cost', 'TransactionController::getCost', ['filter' => 'auth']);
+$routes->get('history', 'TransactionController::history');
+$routes->post('transaction/delete/(:num)', 'TransactionController::delete/$1');
+
+
 
 $routes->get('/home', 'Home::index', ['filter' => 'auth']);  
+
+$routes->get('register', 'AuthController::register');
+$routes->post('register', 'AuthController::register');
+

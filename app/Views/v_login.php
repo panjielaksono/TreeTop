@@ -66,7 +66,9 @@ $password = [
                         <div class="col-12">
                             <?= form_submit('submit', 'Login', ['class' => 'btn btn-primary w-100']) ?>
                         </div>
-
+                        <div class="col-12 text-center">
+                            <a href="<?= base_url('register') ?>" class="btn btn-link">Belum punya akun? Daftar</a>
+                        </div>
                         <?= form_close() ?>
 
                     </div>
