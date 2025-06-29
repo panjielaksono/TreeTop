@@ -11,7 +11,7 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     $message = sprintf(
         'Your PHP version must be %s or higher to run CodeIgniter. Current version: %s',
         $minPhpVersion,
-        PHP_VERSION,
+        PHP_VERSION
     );
 
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
@@ -49,6 +49,14 @@ require FCPATH . '../app/Config/Paths.php';
 // ^^^ Change this line if you move your application folder
 
 $paths = new Config\Paths();
+
+// <<<<<<<<<<<<<<<<<<<< INI DIA BAGIAN KUNCINYA >>>>>>>>>>>>>>>>>>>>
+// Baris ini memuat semua library dari Composer, termasuk Xendit.
+// Lokasinya harus SETELAH $paths didefinisikan.
+// Baris yang memuat semua library dari Composer
+require __DIR__ . '/../vendor/autoload.php';
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // LOAD THE FRAMEWORK BOOTSTRAP FILE
 require $paths->systemDirectory . '/Boot.php';

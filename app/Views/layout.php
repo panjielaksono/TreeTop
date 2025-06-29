@@ -115,6 +115,10 @@ if(uri_string()!=""){
 
   <?= $this->renderSection('script') ?> 
 
+  <script type="text/javascript"
+  src="https://app.sandbox.midtrans.com/snap/snap.js"
+  data-client-key="<?= env('MIDTRANS_CLIENT_KEY') ?>"></script>
+
 </body>
 
 </html>

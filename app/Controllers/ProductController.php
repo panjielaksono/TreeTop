@@ -30,6 +30,7 @@ class ProductController extends BaseController
             'nama' => $this->request->getPost('nama'),
             'harga' => $this->request->getPost('harga'),
             'jumlah' => $this->request->getPost('jumlah'),
+            'weight' => $this->request->getPost('weight'),  
             'created_at' => date("Y-m-d H:i:s")
         ];
 
@@ -42,7 +43,8 @@ class ProductController extends BaseController
         $this->product->insert($dataForm);
 
         return redirect('product')->with('success', 'Data Berhasil Ditambah');
-    } 
+    }
+
 
     public function edit($id)
     {
@@ -52,6 +54,7 @@ class ProductController extends BaseController
             'nama' => $this->request->getPost('nama'),
             'harga' => $this->request->getPost('harga'),
             'jumlah' => $this->request->getPost('jumlah'),
+            'weight' => $this->request->getPost('weight'),  
             'updated_at' => date("Y-m-d H:i:s")
         ];
 
@@ -73,6 +76,7 @@ class ProductController extends BaseController
 
         return redirect('product')->with('success', 'Data Berhasil Diubah');
     }
+
 
     public function delete($id)
     {

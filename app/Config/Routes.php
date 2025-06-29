@@ -55,10 +55,7 @@ $routes->get('get-cost', 'TransactionController::getCost', ['filter' => 'auth'])
 $routes->get('history', 'TransactionController::history');
 $routes->post('transaction/delete/(:num)', 'TransactionController::delete/$1');
 
-
-
+$routes->post('coba-proses-pembayaran', 'TransactionController::cobaProsesPembayaran');
 $routes->get('/home', 'Home::index', ['filter' => 'auth']);  
 
-$routes->get('register', 'AuthController::register');
-$routes->post('register', 'AuthController::register');
 

@@ -1,6 +1,7 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 <?php
+
 if (session()->getFlashData('success')) {
 ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -20,6 +21,7 @@ if (session()->getFlashData('success')) {
             echo form_hidden('nama', $item['nama']);
             echo form_hidden('harga', $item['harga']);
             echo form_hidden('foto', $item['foto']);
+            echo form_hidden('weight', $item['weight']);
             ?>
             <div class="card">
                 <div class="card-body">

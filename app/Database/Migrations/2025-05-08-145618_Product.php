@@ -8,7 +8,7 @@ class Product extends Migration
 {
     public function up()
     {
-         $this->forge->addField([
+        $this->forge->addField([
             'id' => [
                 'type' => 'INT',
                 'constraint' => 11,
@@ -28,6 +28,12 @@ class Product extends Migration
                 'type' => 'INT',
                 'constraint' => 5,
                 'null' => FALSE,
+            ],
+            'weight' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'null' => FALSE,
+                'default' => 0 
             ],
             'foto' => [
                 'type' => 'VARCHAR',

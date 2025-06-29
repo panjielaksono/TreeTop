@@ -54,21 +54,43 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var list<string>|string
      */
-    public $scriptSrc = 'self';
+    public array $scriptSrc = [
+        'self',
+        'https://app.sandbox.midtrans.com', // Izinkan script dari sandbox Midtrans
+        'https://app.midtrans.com',         // Izinkan script dari production Midtrans (untuk nanti)
+        'unsafe-eval',    
+        'unsafe-inline',
+        'https://code.jquery.com',
+        'https://cdn.jsdelivr.net'
+    ];
 
     /**
      * Lists allowed stylesheets' URLs.
      *
      * @var list<string>|string
      */
-    public $styleSrc = 'self';
+    public array $styleSrc = [
+        'self',
+        'https://app.sandbox.midtrans.com',
+        'https://app.midtrans.com',
+        'unsafe-inline',
+        'https://fonts.googleapis.com',
+        'https://cdn.jsdelivr.net',    
+        // Tambahkan 'unsafe-inline' jika masih ada style yang diblokir
+        // 'unsafe-inline'
+    ];
 
     /**
      * Defines the origins from which images can be loaded.
      *
      * @var list<string>|string
      */
-    public $imageSrc = 'self';
+    public array $imgSrc = [
+        'self',
+        'https://app.sandbox.midtrans.com',
+        'https://app.midtrans.com',
+        'data:',
+    ];
 
     /**
      * Restricts the URLs that can appear in a page's `<base>` element.
@@ -92,14 +114,21 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var list<string>|string
      */
-    public $connectSrc = 'self';
+    public array $connectSrc = [
+        'self',
+        'https://api.sandbox.midtrans.com',
+        'https://api.midtrans.com',
+    ];
 
     /**
      * Specifies the origins that can serve web fonts.
      *
      * @var list<string>|string
      */
-    public $fontSrc;
+    public array $fontSrc = [
+        'self',
+        'https://fonts.gstatic.com',
+    ];
 
     /**
      * Lists valid endpoints for submission from `<form>` tags.
@@ -124,7 +153,11 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var list<string>|string|null
      */
-    public $frameSrc;
+    public array $frameSrc = [
+        'self',
+        'https://app.sandbox.midtrans.com',
+        'https://app.midtrans.com',
+    ];
 
     /**
      * Restricts the origins allowed to deliver video and audio.
