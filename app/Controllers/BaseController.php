@@ -50,6 +50,7 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        header("Content-Security-Policy: script-src 'self' https://app.sandbox.midtrans.com https://app.midtrans.com https://assets.midtrans.com https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-eval' 'unsafe-inline';");
 
         // Preload any models, libraries, etc, here.
 

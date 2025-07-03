@@ -1,9 +1,13 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
+<?php
+// header("Content-Security-Policy: script-src 'self' https://app.sandbox.midtrans.com https://app.midtrans.com https://assets.midtrans.com https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-eval' 'unsafe-inline';");
+?>
 <div class="row">
     <div class="col-lg-6">
         <form id="payment-form" class="row g-3" method="POST">
             <?= csrf_field() ?>
+            
             
             <input type="hidden" name="username" value="<?= session()->get('username') ?>">
             <input type="hidden" name="total_harga" id="total_harga" value="">
@@ -89,17 +93,18 @@
         </form> </div>
 </div>
 <?= $this->endSection() ?>
-
 <?= $this->section('script') ?>
-<script>
+<script type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="<?= env('MIDTRANS_CLIENT_KEY') ?>"
+    nonce="<?= esc($csp_nonce) ?>"></script>
+
+<script nonce="<?= esc($csp_nonce) ?>">
     $(document).ready(function() {
         var ongkir = 0;
         var total = 0; 
         hitungTotal();
 
-        // =======================================================
-        //      BAGIAN 1: KODE UNTUK ONGKIR (TETAP SAMA)
-        // =======================================================
         $('#kelurahan').select2({
             placeholder: 'Ketik nama kelurahan...',
             ajax: {
@@ -161,44 +166,39 @@
             $("#total").html("IDR " + total.toLocaleString('id-ID'));
             $("#total_harga").val(total);
             
-            // Logika untuk mengaktifkan/menonaktifkan tombol pembayaran
             if (ongkir > 0) {
                 $('#pay-button').prop('disabled', false);
             } else {
                 $('#pay-button').prop('disabled', true);
             }
         }
-
-        // ================================================================
-        //      BAGIAN 2: KODE BARU UNTUK PEMBAYARAN MIDTRANS
-        // ================================================================
         $('#pay-button').on('click', function(e) {
             e.preventDefault();
             $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Memproses...');
 
             $.ajax({
-                url: '<?= base_url('coba-proses-pembayaran') ?>',
+                url: '<?= base_url('buy') ?>',
                 type: 'POST',
-                data: $('#payment-form').serialize(), // Pastikan form Anda punya id="payment-form"
+                data: $('#payment-form').serialize(),
                 dataType: 'json',
                 success: function(response) {
                     console.log('Response dari server:', response);
                     
                     if (response.status === 'success' && response.snapToken) {
                         snap.pay(response.snapToken, {
-                            onSuccess: function(result) {
+                            onSuccess: function(result){
                                 alert("Pembayaran sukses!");
                                 window.location.href = "<?= base_url('history') ?>";
                             },
-                            onPending: function(result) {
+                            onPending: function(result){
                                 alert("Pembayaran Anda tertunda.");
                                 window.location.href = "<?= base_url('history') ?>";
                             },
-                            onError: function(result) {
+                            onError: function(result){
                                 alert("Pembayaran gagal!");
                                 $('#pay-button').prop('disabled', false).html('Buat Pesanan');
                             },
-                            onClose: function() {
+                            onClose: function(){
                                 alert('Anda menutup jendela pembayaran.');
                                 $('#pay-button').prop('disabled', false).html('Buat Pesanan');
                             }
@@ -217,4 +217,5 @@
         });
     });
 </script>
+
 <?= $this->endSection() ?>

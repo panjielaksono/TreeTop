@@ -49,7 +49,7 @@ $routes->group('keranjang', ['filter' => 'auth'], function ($routes) {
     $routes->get('clear', 'TransactionController::cart_clear');
 });
 $routes->get('checkout', 'TransactionController::checkout', ['filter' => 'auth']);
-$routes->post('buy', 'TransactionController::buy', ['filter' => 'auth']);
+$routes->post('buy', 'TransactionController::buy');
 $routes->get('get-location', 'TransactionController::getLocation', ['filter' => 'auth']);
 $routes->get('get-cost', 'TransactionController::getCost', ['filter' => 'auth']);
 $routes->get('history', 'TransactionController::history');

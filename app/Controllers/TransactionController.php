@@ -92,7 +92,8 @@ class TransactionController extends BaseController
     {
         $data['items'] = $this->cart->contents();
         $data['total'] = $this->cart->total();
-    
+        $nonce = base64_encode(random_bytes(16));
+        $data['csp_nonce'] = $nonce;
         return view('checkout', $data);
     }
 
@@ -159,7 +160,7 @@ class TransactionController extends BaseController
     public function buy()
     {
         // Hanya cek method POST, tanpa isAJAX()
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $transaction_id = null; // Inisialisasi transaction_id
             try {
                 $userModel = new UserModel();
@@ -276,7 +277,7 @@ class TransactionController extends BaseController
     public function cobaProsesPembayaran()
     {
         // Hanya cek method POST, tanpa isAJAX()
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $transaction_id = null; // Inisialisasi transaction_id
             try {
                 $userModel = new UserModel();
