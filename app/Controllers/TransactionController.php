@@ -276,7 +276,7 @@ class TransactionController extends BaseController
     public function cobaProsesPembayaran()
     {
         // Hanya cek method POST, tanpa isAJAX()
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $transaction_id = null; // Inisialisasi transaction_id
             try {
                 $userModel = new UserModel();
