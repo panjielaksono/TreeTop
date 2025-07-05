@@ -1,7 +1,17 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
+<?php if(session()->getFlashdata('message')): ?>
+    <div class="alert alert-success">
+        <?= session()->getFlashdata('message') ?>
+    </div>
+<?php endif; ?>
 
 <h5 class="text-center mb-4">Data Langganan</h5>
+<?php if (session()->getFlashdata('pesan')) : ?>
+    <div class="alert alert-success">
+        <?= session()->getFlashdata('pesan'); ?>
+    </div>
+<?php endif; ?>
 
 
 <?php if (session()->getFlashdata('success')) : ?>
@@ -27,7 +37,6 @@
             <th>Tanggal Langganan</th>
             <th>Tanggal Kadaluarsa</th>
             <th>Status</th>
-            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -61,17 +70,7 @@
                             <?= ucfirst($membership->status) ?>
                         </span>
                     </td>
-                    <td>
-                        <?php if ($membership->status === 'aktif') : ?>
-                            <a href="<?= base_url('admin/membership/deactivate/' . $membership->id) ?>"
-                               class="btn btn-warning btn-sm"
-                               onclick="return confirm('Apakah Anda yakin ingin menonaktifkan langganan ini?')">
-                                <i class="bi bi-x-circle"></i> Nonaktifkan
-                            </a>
-                        <?php else : ?>
-                            <button class="btn btn-secondary btn-sm" disabled>Nonaktif</button>
-                        <?php endif; ?>
-                    </td>
+
                 </tr>
             <?php endforeach; ?>
         <?php else : ?>
@@ -81,5 +80,14 @@
         <?php endif; ?>
     </tbody>
 </table>
+<div class="d-flex justify-content-end mt-3 gap-2">
+<form action="<?= base_url('/send-membership-reminder') ?>" method="get">
+    <button type="submit" class="btn btn-primary">Kirim Notifikasi Expired Membership</button>
+</form>
+<br>
+<form action="<?= base_url('deactivate-expired') ?>" method="get">
+<button type="submit" class="btn btn-danger">Nonaktifkan Membership Expired</button>
+</form>
+</div>
 
 <?= $this->endSection() ?>

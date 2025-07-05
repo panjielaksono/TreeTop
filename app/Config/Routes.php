@@ -70,3 +70,6 @@ $routes->post('coba-proses-pembayaran', 'TransactionController::cobaProsesPembay
 
 // Default home
 $routes->get('/home', 'Home::index', ['filter' => 'auth']);
+$routes->get('/send-membership-reminder', 'Cron::sendReminderManual');
+$routes->get('/deactivate-expired', 'Cron::deactivateExpiredMembers');
+
