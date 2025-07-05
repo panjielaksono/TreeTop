@@ -4,7 +4,12 @@ namespace App\Libraries;
 
 class FonnteAPI
 {
-    protected $token = 'unqvGf2VqZas7uKSt9zj'; // Ganti dengan API token kamu
+    protected $token;
+
+    public function __construct()
+    {
+        $this->token = env('FONNTE_API_KEY');
+    }
 
     public function sendMessage($phone, $message)
     {
