@@ -6,22 +6,24 @@
 <div class="card mb-4">
     <div class="card-body">
         <h5 class="card-title">Daftar Langganan Baru</h5>
-        <form action="<?= base_url('guest/membership/saveMembership') ?>" method="post">
-            <?= csrf_field() ?>
-            <input type="hidden" name="user_id" value="<?= esc(session()->get('id')) ?>">
+       <form action="<?= base_url('guest/membership/saveMembership') ?>" method="post">
+    <?= csrf_field() ?>
+    <input type="hidden" name="user_id" value="<?= esc(session()->get('id')) ?>">
 
-            <div class="mb-3">
-                <label for="subscriptionType" class="form-label">Jenis Langganan</label>
-                <select class="form-select" id="subscriptionType" name="subscription_type" required>
-                    <option value="">-- Pilih --</option>
-                    <option value="daily">Harian</option>
-                    <option value="monthly">Bulanan</option>
-                    <option value="yearly">Tahunan</option>
-                </select>
-            </div>
+    <div class="mb-3">
+        <label for="subscriptionType" class="form-label">Jenis Langganan</label>
+        <select class="form-select" id="subscriptionType" name="subscription_type" required>
+            <option value="">-- Pilih --</option>
+            <option value="daily">Harian</option>
+            <option value="monthly">Bulanan</option>
+            <option value="yearly">Tahunan</option>
+        </select>
+    </div>
 
-            <button type="submit" class="btn btn-primary">Daftar</button>
-        </form>
+
+    <button type="submit" class="btn btn-primary">Daftar</button>
+</form>
+
     </div>
 </div>
 

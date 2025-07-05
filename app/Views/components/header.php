@@ -195,6 +195,7 @@
 
             <li>
                 <form action="<?= base_url('logout') ?>" method="post" style="display:inline;">
+                  <?= csrf_field() ?>
                     <button type="submit" class="dropdown-item d-flex align-items-center" style="border: none; background: none;">
                         <i class="bi bi-box-arrow-right"></i>
                         <span>Sign Out</span>

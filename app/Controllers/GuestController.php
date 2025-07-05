@@ -65,7 +65,7 @@ class GuestController extends BaseController
         $model = new MembershipModel(); // Menggunakan use App\Models\MembershipModel;
 
         $rules = [
-            'user_id' => 'required|integer',
+            'user_id'           => 'required|integer',
             'subscription_type' => 'required|in_list[daily,monthly,yearly]',
         ];
 
@@ -82,12 +82,13 @@ class GuestController extends BaseController
         $expiry = $this->calculateExpiryDate($start, $type);
 
         $data = [
-            'user_id' => $userId,
+            'user_id'           => $userId,
             'subscription_type' => $type,
-            'start_date' => $start->toDateString(),
-            'expiry_date' => $expiry,
-            'status' => 'aktif', // Tambahkan ini untuk memastikan status tersimpan
+            'start_date'        => $start->toDateString(),
+            'expiry_date'       => $expiry,
+            'status'            => 'aktif',
         ];
+
 
         // --- DEBUGGING DATA BEFORE INSERT ---
         // Uncomment baris di bawah ini untuk melihat data yang akan di-insert

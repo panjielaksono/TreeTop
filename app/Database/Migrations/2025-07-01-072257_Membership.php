@@ -26,6 +26,7 @@ class Membership extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
             ],
+
             'start_date' => [
                 'type' => 'DATE',
                 'null' => true,
@@ -46,7 +47,7 @@ class Membership extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         // If you have a 'users' table, you can add a foreign key
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('memberships');
     }
 

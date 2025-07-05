@@ -27,12 +27,14 @@ class Membership extends BaseController
         $membershipModel = new MembershipModel();
 
         // Validasi input
-        $rules = [
-            'user_id' => 'required|integer',
-            'subscription_type' => 'required|in_list[daily,monthly,yearly]',
-            'start_date' => 'required|valid_date',
-            'expiry_date' => 'required|valid_date', // expiry_date ini harusnya dihitung, tapi karena di form ada inputnya, kita validasi juga
-        ];
+    $rules = [
+        'user_id' => 'required|integer',
+        'subscription_type' => 'required|in_list[daily,monthly,yearly]',
+        'start_date' => 'required|valid_date',
+        'expiry_date' => 'required|valid_date',
+        'phone_number' => 'required|min_length[8]|max_length[20]',
+    ];
+
 
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('error', 'Data tidak valid. Silakan periksa kembali.');
@@ -42,19 +44,22 @@ class Membership extends BaseController
         $subscriptionType = $this->request->getPost('subscription_type');
         $startDate = $this->request->getPost('start_date');
         $expiryDate = $this->request->getPost('expiry_date'); // Data expiry_date dari form
+        $phoneNumber = $this->request->getPost('phone_number');
 
         // Jika Anda ingin menghitung expiry_date di backend untuk keamanan
         // Anda bisa mengabaikan $expiryDate dari POST dan menghitungnya ulang
         $calculatedExpiryDate = $this->calculateExpiryDate($startDate, $subscriptionType);
 
         $data = [
-            'user_id' => $userId,
-            'subscription_type' => $subscriptionType,
-            'start_date' => $startDate,
-            'expiry_date' => $calculatedExpiryDate, // Gunakan yang dihitung di backend
-            'created_at' => Time::now(),
-            'updated_at' => Time::now(),
-        ];
+        'user_id' => $userId,
+        'subscription_type' => $subscriptionType,
+        'start_date' => $startDate,
+        'expiry_date' => $calculatedExpiryDate,
+        'phone_number' => $phoneNumber, // ✅ tambahkan ini
+        'created_at' => Time::now(),
+        'updated_at' => Time::now(),
+    ];
+
 
         if ($membershipModel->insert($data)) {
             return redirect()->to(base_url('admin/membership'))->with('success', 'Langganan berhasil ditambahkan!');
