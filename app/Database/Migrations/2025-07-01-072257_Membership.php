@@ -26,11 +26,6 @@ class Membership extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
             ],
-            'phone_number' => [
-            'type'       => 'VARCHAR',
-            'constraint' => 20,
-            'null'       => true,
-            ],
 
             'start_date' => [
                 'type' => 'DATE',

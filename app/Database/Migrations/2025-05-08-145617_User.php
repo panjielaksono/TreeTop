@@ -26,6 +26,11 @@ class User extends Migration
                 'null' => FALSE,
                 'unique' => TRUE,
             ],
+            'phone_number' => [
+            'type'       => 'VARCHAR',
+            'constraint' => 20,
+            'null'       => true,
+            ],
             'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,

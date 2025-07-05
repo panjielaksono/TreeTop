@@ -67,7 +67,6 @@ class GuestController extends BaseController
         $rules = [
             'user_id'           => 'required|integer',
             'subscription_type' => 'required|in_list[daily,monthly,yearly]',
-            'phone_number'      => 'required|min_length[8]|max_length[20]',
         ];
 
         if (!$this->validate($rules)) {
@@ -81,14 +80,12 @@ class GuestController extends BaseController
         $type = $this->request->getPost('subscription_type');
         $start = Time::now();
         $expiry = $this->calculateExpiryDate($start, $type);
-        $phone = $this->request->getPost('phone_number');
 
         $data = [
             'user_id'           => $userId,
             'subscription_type' => $type,
             'start_date'        => $start->toDateString(),
             'expiry_date'       => $expiry,
-            'phone_number'      => $phone, // ✅ Tambahkan ini
             'status'            => 'aktif',
         ];
 

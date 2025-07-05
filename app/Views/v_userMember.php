@@ -20,11 +20,6 @@
         </select>
     </div>
 
-    <!-- Tambahan input nomor telepon -->
-    <div class="mb-3">
-        <label for="phoneNumber" class="form-label">Nomor Telepon</label>
-        <input type="text" class="form-control" id="phoneNumber" name="phone_number" placeholder="08xxxxxxxxxx" required>
-    </div>
 
     <button type="submit" class="btn btn-primary">Daftar</button>
 </form>

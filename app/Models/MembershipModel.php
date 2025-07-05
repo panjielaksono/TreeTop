@@ -31,7 +31,7 @@ class MembershipModel extends Model
     // 🔽 Tambahkan function custom join user di bawah sini
 public function getExpiringWithUser($tanggal)
 {
-    return $this->select('memberships.*, user.username as user_name')
+    return $this->select('memberships.*, user.username as user_name, user.phone_number as phone_number')
                 ->join('user', 'user.id = memberships.user_id')
                 ->where('DATE(expiry_date)', $tanggal)
                 ->where('memberships.status', 'aktif')

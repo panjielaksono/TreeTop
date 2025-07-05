@@ -68,6 +68,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <form id="deleteForm" method="POST">
+                    <?= csrf_field() ?>
                     <button type="submit" class="btn btn-danger">Hapus</button>
                 </form>
             </div>
