@@ -68,6 +68,11 @@ $password = [
                         </div>
                         <?= form_close() ?>
 
+                        <!-- Add an anchor to redirect to the registration page -->
+                        <div class="text-center mt-3">
+                            <p class="small mb-0">Belum punya akun? <a href="<?= base_url('register') ?>" class="text-primary">Daftar di sini</a></p>
+                        </div>
+
                     </div>
                 </div>
 

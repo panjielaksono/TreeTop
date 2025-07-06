@@ -5,14 +5,17 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\TransactionModel;
 
 class AdminController extends BaseController
 {
     protected $userModel;
+    protected $transactionModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->transactionModel = new TransactionModel();
     }
 
     public function index()
@@ -35,7 +38,7 @@ class AdminController extends BaseController
             'guestCount' => $guestCount
         ];
     
-        return view('v_dashboard_admin', $adminData);
+        return view('admin/v_dashboard_admin', $adminData);
     }
 
     public function users()
@@ -46,21 +49,22 @@ class AdminController extends BaseController
 
         $users = $this->userModel->findAll();
 
-        return view('v_users', ['users' => $users]); 
+        return view('admin/v_users', ['users' => $users]); 
     }
 
     public function create()
     {
-        return view('v_create_user');
+        return view('admin/v_create_user');
     }
 
     public function store()
     {
         $data = [
-            'username' => $this->request->getPost('username'),
-            'email'    => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'role'     => $this->request->getPost('role'),
+            'username'   => $this->request->getPost('username'),
+            'email'      => $this->request->getPost('email'),
+            'password'   => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'role'       => $this->request->getPost('role'),
+            'phone_number' => $this->request->getPost('phone_number'), // Menambahkan phone_number
             'created_at' => date('Y-m-d H:i:s'),
         ];
     
@@ -69,6 +73,7 @@ class AdminController extends BaseController
     
         return redirect()->to('/admin/users');
     }
+    
 
     
     public function edit($id)
@@ -78,21 +83,22 @@ class AdminController extends BaseController
             return redirect()->to('/admin/users');
         }
 
-        return view('v_edit_user', ['user' => $user]);
+        return view('admin/v_edit_user', ['user' => $user]);
     }
 
     public function update($id)
     {
         $data = [
-            'username' => $this->request->getPost('username'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'role'     => $this->request->getPost('role')
+            'username'   => $this->request->getPost('username'),
+            'password'   => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'role'       => $this->request->getPost('role'),
+            'phone_number' => $this->request->getPost('phone_number'), // Menambahkan phone_number
         ];
-
+    
         $this->userModel->update($id, $data);
-
+    
         return redirect()->to('/admin/users');
-    }
+    }    
 
 
     public function delete($id)
@@ -114,6 +120,39 @@ class AdminController extends BaseController
             'role' => session()->get('role')          
         ];
 
-        return view('v_adminMember', $userData);
+        return view('admin/v_adminMember', $userData);
     }
+
+    public function pendingTransactions()
+    {
+        if (session()->get('role') !== 'admin') {
+            return redirect()->to('/guest');
+        }
+
+        $pendingTransactions = $this->transactionModel->where('status', 0)->findAll(); 
+        return view('admin/v_pending', ['transactions' => $pendingTransactions]);
+    }
+
+    // Method untuk transaksi yang selesai
+    public function completedTransactions()
+    {
+        if (session()->get('role') !== 'admin') {
+            return redirect()->to('/guest');
+        }
+
+        $completedTransactions = $this->transactionModel->where('status', 1)->findAll();
+        return view('admin/v_completed', ['transactions' => $completedTransactions]);
+    }
+
+    // Method untuk transaksi yang dibatalkan
+    public function canceledTransactions()
+    {
+        if (session()->get('role') !== 'admin') {
+            return redirect()->to('/guest');
+        }
+
+        $canceledTransactions = $this->transactionModel->where('status', 2)->findAll(); 
+        return view('admin/v_canceled', ['transactions' => $canceledTransactions]);
+    }
+
 }

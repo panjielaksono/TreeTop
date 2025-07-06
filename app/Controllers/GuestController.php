@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\I18n\Time;
 use App\Models\MembershipModel; // Pastikan model ini di-import
+use App\Models\UserModel; // Pastikan model ini di-import
 
 class GuestController extends BaseController
 {
@@ -21,41 +22,94 @@ class GuestController extends BaseController
             'role' => session()->get('role')
         ];
 
-        return view('v_dashboard_user', $userData);
+        return view('guest/v_dashboard_user', $userData);
     }
+
+        // Profile Page
+        public function profile()
+        {
+            $userId = session()->get('id'); // Get current user's ID
+            $userModel = new UserModel();
+            $user = $userModel->find($userId); // Fetch user data
+    
+            if (!$user) {
+                return redirect()->to('/guest')->with('error', 'User not found.');
+            }
+    
+            $data = [
+                'user' => $user // Pass user data to the view
+            ];
+    
+            return view('guest/v_profile', $data); // Show profile page
+        }
+    
+        public function updateProfile()
+    {
+        $userId = session()->get('id'); // Get current user's ID
+        $userModel = new UserModel();
+        
+        // Validate form data
+        $rules = [
+            'username' => 'required|min_length[3]',
+            'email'    => 'required|valid_email',
+            'phone_number' => 'required|min_length[10]|max_length[20]', // Validate phone number
+            'password' => 'permit_empty|min_length[6]', // Optional password change
+        ];
+        
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('error', 'Please check your input.');
+        }
+
+        // Collect the form data
+        $data = [
+            'username' => $this->request->getPost('username'),
+            'email'    => $this->request->getPost('email'),
+            'phone_number' => $this->request->getPost('phone_number'), // Add phone number
+        ];
+
+        // If the password is not empty, update it as well
+        $password = $this->request->getPost('password');
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        // Update the user data in the database
+        if ($userModel->update($userId, $data)) {
+            session()->setFlashdata('success', 'Profile updated successfully.');
+            return redirect()->to('/guest/profile');
+        } else {
+            session()->setFlashdata('error', 'Failed to update profile.');
+            return redirect()->to('/guest/profile');
+        }
+    }
+
 
     public function userMember()
     {
         if (session()->get('role') !== 'guest') {
-            return redirect()->to('/login'); // Sesuaikan dengan route login Anda
+            return redirect()->to('/login'); // Pastikan hanya user dengan role 'guest' yang bisa mengakses
         }
 
-        $currentUserId = session()->get('id'); // Ambil ID pengguna yang login
+        $currentUserId = session()->get('id'); // Ambil ID pengguna yang sedang login
 
-        // Panggil model membership
+        // Ambil data dari MembershipModel dan pastikan untuk menghubungkan data user
         $membershipModel = new \App\Models\MembershipModel();
 
-        // Ambil data membership user
-        // Pastikan nama tabel 'user' dan kolom 'id' serta 'user_id' sudah benar di database Anda.
         $memberships = $membershipModel
-            ->select('memberships.*, user.username') // atau 'users.username' jika nama tabelnya 'users'
-            ->join('user', 'user.id = memberships.user_id') // Sesuaikan nama tabel
-            ->where('memberships.user_id', $currentUserId)
+            ->select('memberships.*, user.username')  // Ambil username saja
+            ->join('user', 'user.id = memberships.user_id')  // Menghubungkan dengan tabel user
+            ->where('memberships.user_id', $currentUserId)  // Pastikan user_id sesuai dengan yang login
             ->findAll();
 
+        // Kirim data username dan memberships ke view
         $data = [
             'username' => session()->get('username'),
             'role' => session()->get('role'),
-            'memberships' => $memberships // Kirim data ke view
+            'memberships' => $memberships // Kirim data memberships ke view tanpa phone_number
         ];
 
-        // --- DEBUGGING START ---
-        // Uncomment baris di bawah ini untuk melihat data membership yang diambil untuk user
-        // dd($data['memberships']);
-        // --- DEBUGGING END ---
-
-        return view('v_userMember', $data);
-    }
+        return view('guest/v_userMember', $data); // Render ke view
+}
 
     public function saveMembership()
     {

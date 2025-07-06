@@ -107,11 +107,14 @@ class Filters extends BaseFilters
     public array $filters = [
         'csrf' => [
             'before' => [
+                'midtrans-callback',
                 
             ],
             'except' => [
                 'buy',
                 'buy/*',
+                'midtrans-callback',
+                'midtrans-callback/*'
             ],
         ]
     ];

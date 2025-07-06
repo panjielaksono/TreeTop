@@ -18,15 +18,14 @@ class Membership extends BaseController
             ->join('user', 'user.id = memberships.user_id') // Sesuaikan nama tabel
             ->findAll();
 
-        return view('v_adminMember', $data);
+        return view('admin/v_adminMember', $data);
     }
 
 
     public function save()
     {
-        $membershipModel = new MembershipModel();
+    $membershipModel = new MembershipModel();
 
-        // Validasi input
     $rules = [
         'user_id' => 'required|integer',
         'subscription_type' => 'required|in_list[daily,monthly,yearly]',
@@ -43,11 +42,10 @@ class Membership extends BaseController
         $userId = $this->request->getPost('user_id');
         $subscriptionType = $this->request->getPost('subscription_type');
         $startDate = $this->request->getPost('start_date');
-        $expiryDate = $this->request->getPost('expiry_date'); // Data expiry_date dari form
+        $expiryDate = $this->request->getPost('expiry_date'); 
         $phoneNumber = $this->request->getPost('phone_number');
 
-        // Jika Anda ingin menghitung expiry_date di backend untuk keamanan
-        // Anda bisa mengabaikan $expiryDate dari POST dan menghitungnya ulang
+
         $calculatedExpiryDate = $this->calculateExpiryDate($startDate, $subscriptionType);
 
         $data = [
@@ -55,7 +53,8 @@ class Membership extends BaseController
         'subscription_type' => $subscriptionType,
         'start_date' => $startDate,
         'expiry_date' => $calculatedExpiryDate,
-        'phone_number' => $phoneNumber, // ✅ tambahkan ini
+        'phone_number' => $phoneNumber,
+        'status' => 'Aktif',
         'created_at' => Time::now(),
         'updated_at' => Time::now(),
     ];
@@ -84,9 +83,6 @@ class Membership extends BaseController
         $date = Time::parse($startDate);
 
         switch ($subscriptionType) {
-            case 'daily':
-                $date = $date->addDays(1);
-                break;
             case 'monthly':
                 $date = $date->addMonths(1);
                 break;
@@ -99,15 +95,16 @@ class Membership extends BaseController
 
     public function deactivate($id = null)
     {
-    $membershipModel = new MembershipModel();
-    $membership = $membershipModel->find($id);
-
-    if ($membership) {
-        $membershipModel->update($id, ['status' => 'nonaktif']);
-        return redirect()->to(base_url('admin/membership'))->with('success', 'Membership berhasil dinonaktifkan.');
-    } else {
-        return redirect()->back()->with('error', 'Data membership tidak ditemukan.');
-    }
+        $membershipModel = new MembershipModel();
+        $membership = $membershipModel->find($id);
+    
+        if ($membership) {
+            // Mengubah status menjadi 'nonaktif'
+            $membershipModel->update($id, ['status' => 'nonaktif']);
+            return redirect()->to(base_url('admin/membership'))->with('success', 'Membership berhasil dinonaktifkan.');
+        } else {
+            return redirect()->back()->with('error', 'Data membership tidak ditemukan.');
+        }
     }
 
 }

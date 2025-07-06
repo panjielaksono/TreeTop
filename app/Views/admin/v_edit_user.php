@@ -15,6 +15,11 @@
     </div>
 
     <div class="form-group">
+        <label for="phone_number">Phone Number</label>
+        <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?= esc($user['phone_number']) ?>" required>
+    </div>
+
+    <div class="form-group">
         <label for="role">Role</label>
         <select class="form-control" id="role" name="role">
             <option value="guest" <?= ($user['role'] == 'guest') ? 'selected' : '' ?>>Guest</option>

@@ -15,6 +15,12 @@ class Transaction extends Migration
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ],
+            'user_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => TRUE,
+                'after' => 'id'
+            ],
             'username' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
@@ -28,6 +34,12 @@ class Transaction extends Migration
                 'type' => 'TEXT',
                 'null' => FALSE,
             ],
+            'kelurahan' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
+                'after' => 'alamat'
+            ],
             'ongkir' => [
                 'type' => 'DOUBLE',
                 'null' => TRUE
@@ -37,22 +49,35 @@ class Transaction extends Migration
                 'constraint' => 1,
                 'null' => FALSE,
             ],
+            'expired_at' => [
+                'type' => 'DATETIME',
+                'null' => TRUE,
+                'after' => 'status'
+            ],
+            'snap_token' => [ 
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
+                'after' => 'kelurahan'
+            ],
             'created_at' => [
-                'type' => 'datetime',
-                'null' => TRUE
+                'type' => 'DATETIME',
+                'null' => TRUE,
+                'after' => 'snap_token'
             ],
             'updated_at' => [
-                'type' => 'datetime',
-                'null' => TRUE
+                'type' => 'DATETIME',
+                'null' => TRUE,
+                'after' => 'created_at'
             ]
         ]);
-
+        
         $this->forge->addKey('id', TRUE);
         $this->forge->createTable('transaction');
     }
 
     public function down()
     {
-         $this->forge->dropTable('transaction');
+        $this->forge->dropTable('transaction');
     }
 }

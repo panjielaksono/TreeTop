@@ -19,7 +19,7 @@ class ProductController extends BaseController
         $product = $this->product->findAll();
         $data['product'] = $product;
 
-        return view('v_product', $data);
+        return view('admin/v_product', $data);
     }
     
     public function create()

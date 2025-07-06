@@ -9,7 +9,7 @@ class MembershipModel extends Model
 
     protected $useAutoIncrement = true;
 
-    protected $returnType     = 'object'; // Atau 'array'
+    protected $returnType     = 'object';
     protected $useSoftDeletes = false;
 
     protected $allowedFields = [
@@ -26,9 +26,8 @@ class MembershipModel extends Model
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at'; // Jika pakai soft delete
+    protected $deletedField  = 'deleted_at'; 
 
-    // 🔽 Tambahkan function custom join user di bawah sini
 public function getExpiringWithUser($tanggal)
 {
     return $this->select('memberships.*, user.username as user_name, user.phone_number as phone_number')

@@ -25,16 +25,21 @@
                         }
                         ?>
 
-                        <?= form_open('register', 'class = "row g-3 needs-validation"') ?>
+                        <?= form_open('register/store', 'class = "row g-3 needs-validation"') ?>
                         
                         <div class="col-12">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" required>
+                            <input type="text" name="username" class="form-control" value="<?= old('username') ?>" required>
                         </div>
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <input type="email" name="email" class="form-control" value="<?= old('email') ?>" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="phone_number" class="form-label">Phone Number</label>
+                            <input type="text" name="phone_number" class="form-control" value="<?= old('phone_number') ?>" required>
                         </div>
 
                         <div class="col-12">

@@ -1,8 +1,6 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
-<!-- Judul -->
-<h5 class="text-center mb-4">Riwayat Langganan Anda</h5>
 <div class="card mb-4">
     <div class="card-body">
         <h5 class="card-title">Daftar Langganan Baru</h5>
@@ -14,12 +12,10 @@
         <label for="subscriptionType" class="form-label">Jenis Langganan</label>
         <select class="form-select" id="subscriptionType" name="subscription_type" required>
             <option value="">-- Pilih --</option>
-            <option value="daily">Harian</option>
             <option value="monthly">Bulanan</option>
             <option value="yearly">Tahunan</option>
         </select>
     </div>
-
 
     <button type="submit" class="btn btn-primary">Daftar</button>
 </form>
@@ -42,6 +38,8 @@
 <?php endif; ?>
 
 <!-- Tabel dengan data anggota gym untuk role user -->
+ 
+<h5 class="text-center mb-4">Riwayat Langganan Anda</h5>
 <table class="table datatable">
     <thead>
         <tr>
@@ -62,9 +60,7 @@
                 <td><?= esc($membership->username) ?></td>
                 <td>
                     <?php
-                        if ($membership->subscription_type == 'daily') {
-                            echo 'Harian';
-                        } elseif ($membership->subscription_type == 'monthly') {
+                        if ($membership->subscription_type == 'monthly') {
                             echo 'Bulanan';
                         } elseif ($membership->subscription_type == 'yearly') {
                             echo 'Tahunan';
@@ -76,7 +72,7 @@
                 <td><?= esc(date('d F Y', strtotime($membership->start_date))) ?></td>
                 <td><?= esc(date('d F Y', strtotime($membership->expiry_date))) ?></td>
                 <td>
-                    <?php if ($membership->status == 'aktif') : ?>
+                    <?php if ($membership->status == 'Aktif') : ?>
                         <span class="badge bg-success">Aktif</span>
                     <?php else : ?>
                         <span class="badge bg-secondary">Nonaktif</span>

@@ -49,9 +49,6 @@
                     <td>
                         <?php
                             switch ($membership->subscription_type) {
-                                case 'daily':
-                                    echo 'Harian';
-                                    break;
                                 case 'monthly':
                                     echo 'Bulanan';
                                     break;

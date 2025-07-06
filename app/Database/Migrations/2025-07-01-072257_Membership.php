@@ -19,14 +19,11 @@ class Membership extends Migration
                 'type'       => 'INT',
                 'constraint' => 11,
                 'unsigned'   => true,
-                // You might want to add a foreign key constraint here
-                // 'null' => true, // Or false if a membership must have a user
             ],
-            'subscription_type' => [ // e.g., 'Bulanan', 'Tahunan'
+            'subscription_type' => [ 
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
             ],
-
             'start_date' => [
                 'type' => 'DATE',
                 'null' => true,
@@ -34,6 +31,11 @@ class Membership extends Migration
             'expiry_date' => [
                 'type' => 'DATE',
                 'null' => true,
+            ],
+            'status' => [
+                'type' => 'ENUM("AKTIF", "NON AKTIF")',
+                'null' => false,
+                'default' => 'AKTIF', 
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -43,10 +45,10 @@ class Membership extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-            // Add any other fields your membership needs (e.g., 'status', 'price', etc.)
         ]);
+
         $this->forge->addPrimaryKey('id');
-        // If you have a 'users' table, you can add a foreign key
+        // Menambahkan foreign key
         $this->forge->addForeignKey('user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('memberships');
     }
