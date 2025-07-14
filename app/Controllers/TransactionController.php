@@ -159,9 +159,8 @@ class TransactionController extends BaseController
 
     public function buy()
     {
-        // Hanya cek method POST
         if ($this->request->getMethod() === 'POST') {
-            $transaction_id = null; // Inisialisasi transaction_id
+            $transaction_id = null; 
             try {
                 $userModel = new UserModel();
                 $user = $userModel->where('username', session()->get('username'))->first();
@@ -177,10 +176,10 @@ class TransactionController extends BaseController
                     'username' => $this->request->getPost('username'),
                     'total_harga' => $this->request->getPost('total_harga'),
                     'alamat' => $this->request->getPost('alamat'),
-                    'kelurahan' => $kelurahan_label,  // Pastikan kelurahan yang benar disimpan
+                    'kelurahan' => $kelurahan_label,  
                     'ongkir' => $this->request->getPost('ongkir'),
-                    'status' => 0,  // Default status is pending
-                    'created_at' => date('Y-m-d H:i:s'),  // Ensure created_at is saved
+                    'status' => 0,  
+                    'created_at' => date('Y-m-d H:i:s'), 
                 ];
     
                 // Insert transaction and check for errors
@@ -189,10 +188,10 @@ class TransactionController extends BaseController
                     return $this->response->setStatusCode(500)->setJSON(['status' => 'error', 'message' => 'Gagal DB: ' . implode(', ', $errors)]);
                 }
     
-                $transaction_id = $this->transaction->getInsertID();  // Get the ID of the inserted transaction
+                $transaction_id = $this->transaction->getInsertID();  
     
                 // Generate a unique order ID
-                $order_id = 'ORDER-' . $transaction_id . '-' . time(); // Use a unique combination
+                $order_id = 'ORDER-' . $transaction_id . '-' . time(); 
     
                 // Siapkan item details
                 $item_details = [];
@@ -226,11 +225,9 @@ class TransactionController extends BaseController
                 return $this->response->setJSON(['status' => 'success', 'snapToken' => $snapToken]);
     
             } catch (\Exception $e) {
-                // Handle error during transaction creation
                 if ($transaction_id) {
-                    $this->transaction->delete($transaction_id); // Delete the transaction if any error occurs
+                    $this->transaction->delete($transaction_id);
                 }
-                // Return the error message from Midtrans
                 return $this->response->setStatusCode(500)->setJSON(['status' => 'error', 'message' => 'Midtrans Error: ' . $e->getMessage()]);
             }
         }
@@ -240,24 +237,19 @@ class TransactionController extends BaseController
     
     public function history()
     {
-        // Get the user ID from the session (or username, depending on how your system is designed)
-        $userId = session()->get('username');  // or session()->get('user_id') if using ID
+        $userId = session()->get('username'); 
 
-        // Fetch transaction history from the new model
         $transactions = $this->transaction_history->getTransactionHistory($userId);
 
-        // Pass the data to the view
         return view('guest/v_transaction_history', ['transactions' => $transactions]);
     }
+
     public function delete($transactionId)
     {
-        // Delete the transaction from the database
         $this->transaction_history->deleteTransaction($transactionId);
 
-        // Set a success flash message
         session()->setFlashdata('success', 'Riwayat pembelian berhasil dihapus.');
 
-        // Redirect back to the history page
         return redirect()->to(base_url('history'));
     }
 
@@ -274,17 +266,12 @@ class TransactionController extends BaseController
                 return $this->response->setStatusCode(400)->setJSON(['status' => 'error', 'message' => 'Invalid data sent.']);
             }
 
-            // Midtrans server key
             $serverKey = env('MIDTRANS_SERVER_KEY');
-
-            // Generate signature
             $signature = hash('sha512', $data['order_id'] . $data['status_code'] . $data['gross_amount'] . $serverKey);
 
-            // Log generated signature
             log_message('info', 'Generated Signature: ' . $signature);
             log_message('info', 'Received Signature: ' . $data['signature_key']);
 
-            // Check if the signatures match
             if ($signature != $data['signature_key']) {
                 log_message('error', 'Midtrans callback signature invalid.');
                 return $this->response->setStatusCode(401)->setJSON(['status' => 'error', 'message' => 'Invalid Signature']);
@@ -319,11 +306,11 @@ class TransactionController extends BaseController
 
                 // Update the transaction in the database
                 $this->transaction->update($transaction_id, [
-                    'status' => $payment_status === 'PAID' ? 1 : 2, // Update status accordingly (1=paid, 2=failed)
+                    'status' => $payment_status === 'PAID' ? 1 : 0, 
                     'payment_status' => $payment_status,
-                    'kelurahan' => $kelurahan,  // Ensure kelurahan is saved
-                    'expired_at' => $expired_at,  // Set expired_at from response
-                    'updated_at' => date('Y-m-d H:i:s') // Set updated_at with the current time
+                    'kelurahan' => $kelurahan,  
+                    'expired_at' => $expired_at,  
+                    'updated_at' => date('Y-m-d H:i:s') 
                 ]);
             }
 
@@ -336,16 +323,14 @@ class TransactionController extends BaseController
 
     public function checkExpiredTransactions()
     {
-        $current_time = date('Y-m-d H:i:s'); // Mendapatkan waktu saat ini
+        $current_time = date('Y-m-d H:i:s');
         $expired_transactions = $this->transaction->where('expired_at <', $current_time)
-                                                   ->where('status !=', 1) // Hanya transaksi yang belum selesai
+                                                   ->where('status !=', 1) 
                                                    ->findAll();
     
         foreach ($expired_transactions as $transaction) {
-            // Update status menjadi canceled (misalnya status 2 untuk canceled)
             $this->transaction->update($transaction['id'], ['status' => 2]);
         }
     }    
-
 }
 

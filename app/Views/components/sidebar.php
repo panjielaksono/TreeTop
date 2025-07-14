@@ -12,12 +12,12 @@
         <!-- Menu untuk Admin -->
         <?php if (session()->get('role') == 'admin') : ?>
             <!-- Dashboard (Admin) -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link <?= (uri_string() == 'admin') ? 'active' : 'collapsed' ?>" href="<?= base_url('admin') ?>">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
 
             <!-- Product Management -->
             <li class="nav-item">
@@ -61,7 +61,13 @@
                     </li>
                 </ul>
             </li>
-
+            
+            <li class="nav-item">
+                <a class="nav-link <?= (uri_string() == 'guest/profile') ? 'active' : 'collapsed' ?>" href="<?= base_url('guest/profile') ?>">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
         <?php endif; ?>
 
         <!-- Menu untuk Guest -->

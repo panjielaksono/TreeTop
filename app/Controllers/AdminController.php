@@ -155,4 +155,37 @@ class AdminController extends BaseController
         return view('admin/v_canceled', ['transactions' => $canceledTransactions]);
     }
 
+    public function cancelTransaction($id = null)
+    {
+        // Pastikan hanya admin yang bisa mengakses
+        if (session()->get('role') !== 'admin') {
+            return redirect()->to('/guest')->with('error', 'Akses ditolak.');
+        }
+
+        if ($id === null) {
+            return redirect()->to(base_url('admin/transaksi/pending'))->with('error', 'ID transaksi tidak ditemukan.');
+        }
+
+        $transaction = $this->transactionModel->find($id);
+
+        if (!$transaction) {
+            return redirect()->to(base_url('admin/transaksi/pending'))->with('error', 'Transaksi tidak ditemukan.');
+        }
+
+        // Pastikan hanya transaksi dengan status pending (0) yang bisa dibatalkan oleh admin
+        // Jika sudah status 1 (paid) atau 2 (canceled/failed), tidak bisa dibatalkan lagi
+        if ($transaction['status'] != 0) {
+            return redirect()->to(base_url('admin/transaksi/pending'))->with('error', 'Transaksi ini tidak bisa dibatalkan karena sudah diproses atau dibatalkan sebelumnya.');
+        }
+
+        $this->transactionModel->update($id, [
+            'status' => 2,
+            'payment_status' => 'CANCELED',
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        session()->setFlashdata('success', 'Order berhasil dibatalkan oleh Admin.');
+        return redirect()->to(base_url('admin/transaksi/pending'));
+    }
+
 }

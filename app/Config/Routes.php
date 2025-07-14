@@ -51,9 +51,10 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->get('membership/deactivate/(:num)', 'Membership::deactivate/$1');
 
     // Transaction Management Routes
-    $routes->get('transaksi/pending', 'AdminController::pendingTransactions');   // Page for Pending Transactions
-    $routes->get('transaksi/selesai', 'AdminController::completedTransactions'); // Page for Completed Transactions
-    $routes->get('transaksi/dibatalkan', 'AdminController::canceledTransactions'); // Page for Canceled Transactions
+    $routes->get('transaksi/pending', 'AdminController::pendingTransactions');   
+    $routes->get('transaksi/selesai', 'AdminController::completedTransactions'); 
+    $routes->get('transaksi/dibatalkan', 'AdminController::canceledTransactions'); 
+    $routes->get('transactions/cancel/(:num)', 'AdminController::cancelTransaction/$1');
 });
 
 // Midtrans Callback Routes
@@ -66,6 +67,7 @@ $routes->group('keranjang', ['filter' => 'auth'], function ($routes) {
     $routes->post('edit', 'TransactionController::cart_edit');
     $routes->get('delete/(:any)', 'TransactionController::cart_delete/$1');
     $routes->get('clear', 'TransactionController::cart_clear');
+    
 });
 
 // Checkout and Transaction Routes
@@ -75,7 +77,7 @@ $routes->get('get-location', 'TransactionController::getLocation', ['filter' => 
 $routes->get('get-cost', 'TransactionController::getCost', ['filter' => 'auth']);
 $routes->get('history', 'TransactionController::history');
 $routes->post('transaction/delete/(:num)', 'TransactionController::delete/$1');
-$routes->post('coba-proses-pembayaran', 'TransactionController::cobaProsesPembayaran');
+
 
 // Default Home Route
 $routes->get('/home', 'Home::index', ['filter' => 'auth']);

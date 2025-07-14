@@ -16,10 +16,10 @@
     </thead>
     <tbody>
         <?php if (!empty($transactions)): ?>
-            <?php $counter = 1; ?> <!-- Inisialisasi counter untuk reset ID -->
+            <?php $counter = 1; ?> 
             <?php foreach ($transactions as $transaction): ?>
                 <tr>
-                    <th scope="row"><?= $counter++ ?></th> <!-- Menampilkan ID transaksi yang dimulai dari 1 -->
+                    <th scope="row"><?= $counter++ ?></th> 
                     <td><?= esc($transaction['username']) ?></td>
                     <td><?= esc($transaction['total_harga']) ?></td>
                     <td><?= esc($transaction['alamat']) ?></td>

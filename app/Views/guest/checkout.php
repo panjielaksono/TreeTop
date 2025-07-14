@@ -1,7 +1,7 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 <?php
-// header("Content-Security-Policy: script-src 'self' https://app.sandbox.midtrans.com https://app.midtrans.com https://assets.midtrans.com https://code.jquery.com https://cdn.jsdelivr.net 'unsafe-eval' 'unsafe-inline';");
+
 ?>
 <div class="row">
     <div class="col-lg-6">
@@ -133,9 +133,9 @@
     });
 
     $("#kelurahan").on('change', function() {
-        var kelurahanLabel = $(this).find("option:selected").text();  // Ambil label lengkap dari option yang dipilih
-        var kelurahanId = $(this).val();  // ID kelurahan
-        $('#kelurahan_label').val(kelurahanLabel);  // Simpan label yang lengkap
+        var kelurahanLabel = $(this).find("option:selected").text();  
+        var kelurahanId = $(this).val();  
+        $('#kelurahan_label').val(kelurahanLabel);  
 
         $("#layanan").empty().append('<option value="" selected>-- Pilih Jenis Layanan --</option>');
         ongkir = 0;

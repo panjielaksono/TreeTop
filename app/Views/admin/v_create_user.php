@@ -7,7 +7,7 @@
     </div>
 
     <div class="form-group">
-        <label for="email">Email</label> <!-- Tambahkan input email -->
+        <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" required>
     </div>
 
@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group">
-        <label for="phone_number">Phone Number</label> <!-- Tambahkan input phone_number -->
+        <label for="phone_number">Phone Number</label> 
         <input type="text" class="form-control" id="phone_number" name="phone_number" required>
     </div>
 

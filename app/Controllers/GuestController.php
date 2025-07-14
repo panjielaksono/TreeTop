@@ -87,36 +87,31 @@ class GuestController extends BaseController
     public function userMember()
     {
         if (session()->get('role') !== 'guest') {
-            return redirect()->to('/login'); // Pastikan hanya user dengan role 'guest' yang bisa mengakses
+            return redirect()->to('/login'); 
         }
 
-        $currentUserId = session()->get('id'); // Ambil ID pengguna yang sedang login
+        $currentUserId = session()->get('id'); 
 
-        // Ambil data dari MembershipModel dan pastikan untuk menghubungkan data user
         $membershipModel = new \App\Models\MembershipModel();
 
         $memberships = $membershipModel
-            ->select('memberships.*, user.username')  // Ambil username saja
-            ->join('user', 'user.id = memberships.user_id')  // Menghubungkan dengan tabel user
-            ->where('memberships.user_id', $currentUserId)  // Pastikan user_id sesuai dengan yang login
+            ->select('memberships.*, user.username')  
+            ->join('user', 'user.id = memberships.user_id')  
+            ->where('memberships.user_id', $currentUserId)  
             ->findAll();
 
-        // Kirim data username dan memberships ke view
         $data = [
             'username' => session()->get('username'),
             'role' => session()->get('role'),
-            'memberships' => $memberships // Kirim data memberships ke view tanpa phone_number
+            'memberships' => $memberships 
         ];
 
-        return view('guest/v_userMember', $data); // Render ke view
+        return view('guest/v_userMember', $data); 
 }
 
     public function saveMembership()
     {
-        // Baris debugging session('id') telah dihapus karena sudah mengkonfirmasi masalah.
-        // dd(session()->get('id'));
-
-        $model = new MembershipModel(); // Menggunakan use App\Models\MembershipModel;
+        $model = new MembershipModel(); 
 
         $rules = [
             'user_id'           => 'required|integer',
@@ -124,9 +119,6 @@ class GuestController extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            // --- DEBUGGING VALIDATION ERROR ---
-            // AKTIFKAN BARIS DI BAWAH INI UNTUK MELIHAT PESAN ERROR VALIDASI
-            dd($this->validator->getErrors()); // Tampilkan error validasi
             return redirect()->back()->withInput()->with('error', 'Data tidak valid. Silakan periksa kembali.');
         }
 
@@ -143,17 +135,9 @@ class GuestController extends BaseController
             'status'            => 'aktif',
         ];
 
-
-        // --- DEBUGGING DATA BEFORE INSERT ---
-        // Uncomment baris di bawah ini untuk melihat data yang akan di-insert
-        // dd($data);
-
         if ($model->insert($data)) {
             return redirect()->back()->with('success', 'Berhasil mendaftar langganan.');
         } else {
-            // --- DEBUGGING INSERT ERROR ---
-            // dd($model->errors()); // Menampilkan error dari model (jika ada)
-            // dd($model->db->error()); // Menampilkan error dari database (jika ada)
             return redirect()->back()->with('error', 'Gagal mendaftar langganan. Silakan coba lagi.');
         }
     }

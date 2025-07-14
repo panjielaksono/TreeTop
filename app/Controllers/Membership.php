@@ -76,8 +76,7 @@ class Membership extends BaseController
             return redirect()->back()->with('error', 'Gagal menghapus langganan.');
         }
     }
-
-    // Fungsi helper untuk menghitung tanggal kadaluarsa (bisa juga di model)
+    
     private function calculateExpiryDate($startDate, $subscriptionType)
     {
         $date = Time::parse($startDate);

@@ -63,7 +63,7 @@
                     <td><?= date('d F Y', strtotime($membership->start_date)) ?></td>
                     <td><?= date('d F Y', strtotime($membership->expiry_date)) ?></td>
                     <td>
-                        <span class="badge bg-<?= $membership->status === 'aktif' ? 'success' : 'secondary' ?>">
+                        <span class="badge bg-<?= $membership->status === 'Aktif' ? 'success' : 'secondary' ?>">
                             <?= ucfirst($membership->status) ?>
                         </span>
                     </td>

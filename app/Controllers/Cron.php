@@ -23,7 +23,7 @@ class Cron extends BaseController
         foreach ($memberships as $m) {
             $phone = $m->phone_number ?? null;
             if (!$phone) continue;
-            $phone = preg_replace('/[^0-9]/', '', $phone); // Hapus semua karakter non-numerik
+            $phone = preg_replace('/[^0-9]/', '', $phone); 
             if (substr($phone, 0, 1) === '0') {
                 $phone = '62' . substr($phone, 1);
             }
@@ -62,7 +62,7 @@ class Cron extends BaseController
         log_message('debug', 'Nonaktif H+1: ' . json_encode($res));
 
         if (isset($res['status']) && $res['status']) {
-            $model->update($m->id, ['status' => 'nonaktif']);
+            $model->update($m->id, ['status' => 'Non Aktif']);
             $nonaktif++;
         }
     }
